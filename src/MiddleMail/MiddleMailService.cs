@@ -62,8 +62,17 @@ namespace MiddleMail {
 			}
 		}
 
-		private async Task<RateLimitLease?> acquireLease()
-		{
+		/// <summary>
+		/// If rate limiting is configured, acquires a lease,
+		/// awaiting the RateLimitDelay at each failure to acquire
+		/// until the lease is successfully acquired.
+		/// This means that this function will not return
+		/// until the number of emails to be sent is back below the rate limit.
+		/// If rate limiting is not configured, returns null.
+		/// (A using statement that uses null suceeds without any problem.)
+		/// </summary>
+		/// <returns></returns>
+		private async Task<RateLimitLease?> acquireLease() {
 			if (rateLimiter == default) return null;
 
 			while (true) {
