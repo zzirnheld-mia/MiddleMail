@@ -73,11 +73,11 @@ namespace MiddleMail {
 		/// </summary>
 		/// <returns></returns>
 		private async Task<RateLimitLease?> acquireLease() {
-			if (rateLimiter == default) return null;
+			if (rateLimiter == default) { return null; }
 
 			while (true) {
 				RateLimitLease lease = await rateLimiter.AcquireAsync();
-				if (lease.IsAcquired) return lease;
+				if (lease.IsAcquired) { return lease; }
 
 				await Task.Delay(RateLimitDelay);
 			}
